@@ -1,0 +1,154 @@
+interaksi sederhana
+C:\Users\NamaPengguna>hostname   REM Ini perintah yang diketik, 'hostname'
+NAMA-KOMPUTER-WINDOWS            REM Ini output dari perintah 'hostname'
+C:\Users\NamaPengguna>cd Desktop REM Perintah baru
+C:\Users\NamaPengguna\Desktop>_  REM Prompt berubah nunjukin direktori baru, siap lagi
+
+next mateeri (Print Working Directory)
+PS D:\Per-Kodingan\kls 11 s1\Tugas\Mahir-Terminal> pwd
+
+Path                                          
+----                                          
+D:\Per-Kodingan\kls 11 s1\Tugas\Mahir-Terminal
+
+next (List contents ato directory)
+
+PS D:\Per-Kodingan\kls 11 s1\Tugas\Mahir-Terminal> dir
+
+
+    Directory: D:\Per-Kodingan\kls 11 s1\Tugas\Mahir-Terminal
+
+
+Mode                 LastWriteTime         Length Name                                                                   
+----                 -------------         ------ ----                                                                   
+-a----          8/4/2026   9:01 PM            557 terminal.txt                                                           
+
+next(cd change directory)
+C:\Users\NamaPengguna>cd Documents
+C:\Users\NamaPengguna\Documents>cd Arsip\2023
+C:\Users\NamaPengguna\Documents\Arsip\2023>cd ..\..
+C:\Users\NamaPengguna>
+
+buat copy
+REM Contoh di CMD Windows
+ 
+REM Nyalin laporan.txt jadi laporan_salinan.txt
+copy laporan.txt laporan_salinan.txt
+ 
+REM Nyalin laporan.txt ke folder "backup"
+copy laporan.txt backup\
+ 
+REM Nyalin SEMUA file .txt di folder saat ini ke folder "backup"
+copy *.txt backup\
+ 
+REM Nyalin folder "ProyekPenting" beserta isinya ke folder "ArsipProyek"
+xcopy ProyekPenting ArsipProyek\ /E /I
+
+ganti nama 
+REM Contoh di CMD Windows
+ 
+REM Mindahin draft.txt ke folder "Selesai"
+move draft.txt Selesai\
+ 
+REM Ganti nama file "Selesai\draft.txt" jadi "Selesai\final.txt" (pake move)
+move Selesai\draft.txt Selesai\final.txt
+ 
+REM Ganti nama folder "Publikasi" jadi "ArtikelTerbit" (pake move)
+move Publikasi ArtikelTerbit
+ 
+REM Ganti nama file "gambar_lama.jpg" jadi "gambar_baru.jpg" (pake ren)
+ren gambar_lama.jpg gambar_baru.jpg 
+
+-
+
+# Contoh di PowerShell Windows
+ 
+# Mindahin draft.txt ke folder "Selesai"
+Move-Item -Path .\draft.txt -Destination .\Selesai\
+ 
+# Ganti nama file "Selesai\draft.txt" jadi "Selesai\final.txt"
+Rename-Item -Path .\Selesai\draft.txt -NewName final.txt
+
+ngapus file
+REM Contoh di CMD Windows
+REM Asumsi ada file "data_usang.csv" dan "log_error.txt"
+ 
+REM Hapus data_usang.csv dengan konfirmasi
+del /p data_usang.csv
+REM Terminal akan nanya: data_usang.csv, Delete (Y/N)?
+ 
+REM Hapus semua file yang akhirannya .bak di folder saat ini (hati-hati!)
+REM del *.bak 
+REM (Lebih aman pake del /p *.bak)
+
+ngapus folder
+REM Contoh di CMD Windows
+ 
+REM Hapus folder kosong "FolderTakBerguna"
+rd FolderTakBerguna
+ 
+REM Hapus folder "ArsipLama" beserta isinya (akan ada konfirmasi)
+REM rd /s ArsipLama
+ 
+REM Hapus folder "SampahProyek" beserta isinya TANPA konfirmasi (HATI-HATI!)
+REM rd /s /q SampahProyek
+
+ngintip isi file
+REM Contoh di CMD Windows
+REM Asumsi ada file "config.ini"
+ 
+type config.ini
+REM (Isi file config.ini akan ditampilkan di terminal)
+
+clear text
+'cls' (Clear Screen): Khusus untuk Windows CMD (dan kadang juga dikenal di PowerShell).
+
+history text ketikan
+Navigasi Histori Pake Tombol Panah:
+
+Ini cara yang paling sering dipake di SEMUA terminal:
+Tekan tombol Panah Atas (↑) di keyboardmu buat nampilin perintah sebelumnya. Teken lagi buat liat perintah yang lebih lama lagi.
+Tekan tombol Panah Bawah (↓) buat nampilin perintah yang lebih baru (kalau kamu udah neken panah atas).
+
+history
+Histori di Windows CMD (Klasik):
+
+CMD nyimpen histori di sesi itu, bisa diakses pake panah atas/bawah.
+Tekan F7 bakal nampilin daftar histori dalam bentuk pop-up kecil yang bisa kamu pilih pake panah terus Enter.
+
+nyari tolong kalo lupa perintah
+(cmd)
+dir /?   REM Nampilin bantuan buat perintah dir
+copy /?  REM Nampilin bantuan buat perintah copy
+(powershell)
+Get-Help Copy-Item  # Bantuan buat cmdlet Copy-Item
+Copy-Item -?
+
+nampilin teks ke terminal
+REM Windows CMD
+echo Halo dari Command Prompt!
+REM Output: Halo dari Command Prompt!
+ 
+SET nama=Siti
+echo Nama saya adalah %nama%
+REM Output: Nama saya adalah Siti
+
+short cut
+Ctrl + C: Menghentikan (Interrupt/Kill) perintah atau program yang lagi jalan di terminal. Berguna banget kalau ada perintah yang nge-loop gak berenti atau kamu salah ngejalanin sesuatu.
+Ctrl + L: Membersihkan layar terminal (sama kayak perintah clear atau cls).
+Ctrl + A: Pindahin kursor ke awal baris perintah yang lagi kamu ketik.
+Ctrl + E: Pindahin kursor ke akhir baris perintah yang lagi kamu ketik.
+Ctrl + U: Hapus semua teks dari posisi kursor ke awal baris.
+Ctrl + K: Hapus semua teks dari posisi kursor ke akhir baris.
+Ctrl + W: Hapus kata terakhir sebelum kursor.
+Ctrl + D:
+Kalau baris perintah kosong, ini bisa berarti "End of File" (EOF) atau logout/keluar dari shell saat ini. Hati-hati!
+Kalau ada teks di baris perintah, kadang berfungsi kayak tombol Delete (hapus karakter di bawah kursor).
+Alt + Backspace (atau Ctrl + Backspace di beberapa setup): Hapus kata sebelumnya (mirip Ctrl+W tapi kadang beda perilakunya).
+Pindah Kata per Kata:
+Alt + B atau Ctrl + Panah Kiri: Mundur satu kata.
+Alt + F atau Ctrl + Panah Kanan: Maju satu kata. (Shortcut Alt ini mungkin perlu dikonfigurasi di beberapa terminal emulator, atau pake Esc dulu baru B/F).
+
+cara buka terminal vs code lwat terminal 
+code . / code namafile.html
+

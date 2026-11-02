@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Kantin HSI-BS</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Library grafik -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" data-page="dashboard">
+      <div class="brand-logo">HSI</div>
+      <div>
+        <strong>Kantin HSI-BS</strong>
+        <small>HSI Boarding School</small>
+      </div>
+    </a>
+
+    <p class="menu-label">MENU</p>
+
+    <nav class="navigation">
+      <button class="nav-link active" data-page="dashboard">
+        <span>▦</span> Dashboard
+      </button>
+      <button class="nav-link" data-page="produk">
+        <span>◇</span> Produk
+      </button>
+      <button class="nav-link" data-page="laporan">
+        <span>▤</span> Laporan
+      </button>
+      <button class="nav-link" data-page="pengaturan">
+        <span>⚙</span> Pengaturan
+      </button>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle">
+      <span id="themeIcon">☾</span>
+      <span id="themeText">Mode gelap</span>
+    </button>
+
+    <div class="sidebar-bottom">
+      <span>● Sistem aktif</span>
+      <span>v1.0</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu">☰</button>
+      <div class="breadcrumbs">
+        Kantin HSI-BS <span>/</span>
+        <strong id="breadcrumbPage">Dashboard</strong>
+      </div>
+      <div class="profile">
+        <span class="status-dot"></span>
+        <span>Admin Kantin</span>
+        <div class="avatar">A</div>
+      </div>
+    </header>
+
+    <!-- HALAMAN DASHBOARD -->
+    <section class="page active-page" id="page-dashboard">
+      <div class="page-heading">
+        <div>
+          <h1>Dashboard Kantin</h1>
+          <p id="dateSummary">Ringkasan penjualan kantin</p>
+        </div>
+
+        <div class="filters">
+          <label class="filter-field">
+            <span>Periode</span>
+            <select id="dateFilter">
+              <option value="7">7 hari terakhir</option>
+              <option value="14">14 hari terakhir</option>
+              <option value="30">30 hari terakhir</option>
+            </select>
+          </label>
+
+          <label class="filter-field">
+            <span>Kategori</span>
+            <select id="categoryFilter">
+              <option value="all">Semua kategori</option>
+              <option value="Makanan">Makanan</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Snack">Snack</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon blue">▣</span>
+            <span class="stat-label">Omzet</span>
+            <span class="info" title="Harga produk dikali jumlah terjual">ⓘ</span>
+          </div>
+          <strong id="totalRevenue">Rp0</strong>
+          <p id="revenueNote">Perkiraan omzet</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon green">♧</span>
+            <span class="stat-label">Item terjual</span>
+            <span class="info" title="Jumlah seluruh item terjual">ⓘ</span>
+          </div>
+          <strong id="totalSold">0</strong>
+          <p id="soldNote">Jumlah item</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon purple">▤</span>
+            <span class="stat-label">Transaksi</span>
+            <span class="info" title="Perkiraan berdasarkan data demo">ⓘ</span>
+          </div>
+          <strong id="totalTransactions">0</strong>
+          <p id="transactionNote">Estimasi transaksi</p>
+        </article>
+      </div>
+
+      <div class="charts-grid">
+        <article class="panel chart-panel">
+          <div class="panel-heading">
+            <h2>Omzet per hari</h2>
+            <span>Rupiah · Data simulasi</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-heading">
+            <h2>Item per kategori</h2>
+            <span>Item terjual</span>
+          </div>
+          <div class="donut-wrap">
+            <canvas id="categoryChart"></canvas>
+          </div>
+          <div class="legend" id="categoryLegend"></div>
+        </article>
+      </div>
+
+      <div class="bottom-grid">
+        <article class="panel products-panel">
+          <div class="panel-heading">
+            <h2>Produk</h2>
+            <button class="text-button" data-page="produk">Lihat semua →</button>
+          </div>
+
+          <div class="table-tools">
+            <input id="dashboardSearch" type="search"
+              placeholder="Cari produk...">
+            <select id="dashboardSort" aria-label="Urutkan produk">
+              <option value="sold">Terlaris</option>
+              <option value="name">Nama A–Z</option>
+              <option value="revenue">Omzet terbesar</option>
+              <option value="stock">Stok terendah</option>
+            </select>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produk</th>
+                  <th>Kategori</th>
+                  <th>Terjual</th>
+                  <th>Omzet</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardProductRows"></tbody>
+            </table>
+          </div>
+          <p class="table-foot" id="productTableFoot"></p>
+        </article>
+
+        <article class="panel promo-panel">
+          <div class="panel-heading">
+            <h2>Promo minggu ini</h2>
+            <span>4 aktif</span>
+          </div>
+
+          <div class="promo-list">
+            <div class="promo-item">
+              <div class="promo-emoji peach">🍜</div>
+              <div class="promo-copy">
+                <strong>Senin Hemat</strong>
+                <p>Mie Ayam cuma Rp7.000</p>
+              </div>
+              <span class="promo-tag blue-tag">SENIN</span>
+            </div>
+
+            <div class="promo-item">
+              <div class="promo-emoji yellow">🍳</div>
+              <div class="promo-copy">
+                <strong>Paket Sarapan</strong>
+                <p>Nasi Uduk + Es Teh Rp9.000</p>
+              </div>
+              <span class="promo-tag gold-tag">HARIAN</span>
+            </div>
+
+            <div class="promo-item">
+              <div class="promo-emoji cyan">🍌</div>
+              <div class="promo-copy">
+                <strong>Menu Baru</strong>
+                <p>Pisang Goreng Cokelat</p>
+              </div>
+              <span class="promo-tag cyan-tag">MINGGU INI</span>
+            </div>
+
+            <div class="promo-item">
+              <div class="promo-emoji pink">💧</div>
+              <div class="promo-copy">
+                <strong>Jumat Berkah</strong>
+                <p>Air mineral gratis tiap beli makanan</p>
+              </div>
+              <span class="promo-tag pink-tag">JUMAT</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- HALAMAN PRODUK -->
+    <section class="page" id="page-produk">
+      <div class="page-heading">
+        <div>
+          <h1>Manajemen Produk</h1>
+          <p>Kelola nama, kategori, harga, stok, dan penjualan produk.</p>
+        </div>
+        <button class="primary-button" id="addProductBtn">＋ Tambah produk</button>
+      </div>
+
+      <article class="panel full-panel">
+        <div class="panel-heading">
+          <h2>Daftar produk</h2>
+          <span id="allProductCount">0 produk</span>
+        </div>
+
+        <div class="product-controls">
+          <input id="productSearch" type="search" placeholder="Cari nama produk...">
+
+          <select id="productCategory">
+            <option value="all">Semua kategori</option>
+            <option value="Makanan">Makanan</option>
+            <option value="Minuman">Minuman</option>
+            <option value="Snack">Snack</option>
+          </select>
+
+          <select id="productSort">
+            <option value="name">Nama A–Z</option>
+            <option value="price-asc">Harga terendah</option>
+            <option value="price-desc">Harga tertinggi</option>
+            <option value="sold">Paling laris</option>
+            <option value="stock">Stok terendah</option>
+          </select>
+        </div>
+
+        <div class="table-scroll">
+          <table class="large-table">
+            <thead>
+              <tr>
+                <th>Nama produk</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Terjual</th>
+                <th>Status stok</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="productRows"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <!-- HALAMAN LAPORAN -->
+    <section class="page" id="page-laporan">
+      <div class="page-heading">
+        <div>
+          <h1>Laporan Penjualan</h1>
+          <p>Ringkasan berdasarkan data simulasi produk.</p>
+        </div>
+        <button class="primary-button" id="exportCsv">↓ Ekspor CSV</button>
+      </div>
+
+      <div class="stats-grid report-stats">
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon blue">▣</span>
+            <span class="stat-label">Total omzet</span>
+          </div>
+          <strong id="reportRevenue">Rp0</strong>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon green">♧</span>
+            <span class="stat-label">Total item terjual</span>
+          </div>
+          <strong id="reportSold">0</strong>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon purple">★</span>
+            <span class="stat-label">Produk terlaris</span>
+          </div>
+          <strong class="best-product" id="bestProduct">-</strong>
+        </article>
+      </div>
+
+      <article class="panel full-panel">
+        <div class="panel-heading">
+          <h2>Rincian penjualan</h2>
+          <span>Urut omzet terbesar</span>
+        </div>
+        <div class="table-scroll">
+          <table class="large-table">
+            <thead>
+              <tr>
+                <th>Produk</th>
+                <th>Kategori</th>
+                <th>Harga satuan</th>
+                <th>Terjual</th>
+                <th>Total omzet</th>
+              </tr>
+            </thead>
+            <tbody id="reportRows"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <!-- HALAMAN PENGATURAN -->
+    <section class="page" id="page-pengaturan">
+      <div class="page-heading">
+        <div>
+          <h1>Pengaturan</h1>
+          <p>Atur tampilan dan kelola data dashboard.</p>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <article class="panel setting-card">
+          <h2>Preferensi tampilan</h2>
+          <p>Pilih tema yang nyaman digunakan. Preferensi disimpan di browser.</p>
+          <div class="setting-row">
+            <div>
+              <strong>Mode gelap</strong>
+              <small>Mengubah warna dashboard.</small>
+            </div>
+            <input type="checkbox" id="darkSetting" aria-label="Mode gelap">
+          </div>
+        </article>
+
+        <article class="panel setting-card">
+          <h2>Data produk</h2>
+          <p>Produk yang diubah disimpan di LocalStorage browser ini.</p>
+          <div class="setting-row">
+            <div>
+              <strong>Reset data demo</strong>
+              <small>Mengembalikan produk awal.</small>
+            </div>
+            <button class="secondary-button" id="resetData">Reset data</button>
+          </div>
+          <p class="small-note">Catatan: reset tidak dapat membatalkan perubahan produk sebelumnya.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2026 Kantin HSI-BS <span>·</span> Dashboard demonstrasi
+      <span>·</span> Dibuat dengan HTML, CSS, dan JavaScript
+    </footer>
+  </main>
+
+  <!-- DIALOG TAMBAH / EDIT PRODUK -->
+  <dialog class="dialog" id="productDialog">
+    <form id="productForm">
+      <div class="dialog-heading">
+        <div>
+          <h2 id="dialogTitle">Tambah produk</h2>
+          <p>Isi informasi produk di bawah ini.</p>
+        </div>
+        <button class="icon-button" id="closeDialog" type="button">✕</button>
+      </div>
+
+      <input id="editProductId" type="hidden">
+
+      <label>
+        Nama produk
+        <input id="formName" type="text" maxlength="70" required
+          placeholder="Contoh: Nasi Goreng">
+      </label>
+
+      <label>
+        Kategori
+        <select id="formCategory" required>
+          <option value="Makanan">Makanan</option>
+          <option value="Minuman">Minuman</option>
+          <option value="Snack">Snack</option>
+        </select>
+      </label>
+
+      <label>
+        Harga (Rupiah)
+        <input id="formPrice" type="number" min="1" step="500" required>
+      </label>
+
+      <div class="form-row">
+        <label>
+          Stok tersedia
+          <input id="formStock" type="number" min="0" required>
+        </label>
+        <label>
+          Jumlah terjual
+          <input id="formSold" type="number" min="0" required>
+        </label>
+      </div>
+
+      <div class="dialog-actions">
+        <button class="secondary-button" id="cancelDialog" type="button">Batal</button>
+        <button class="primary-button" type="submit">Simpan produk</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

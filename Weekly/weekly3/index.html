@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSI Student Management</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div>
+        <span class="school">HSI BOARDING SCHOOL • WEB PROGRAMMING</span>
+        <h1>🎓 HSI Student Management</h1>
+      </div>
+      <div class="phase-badge">Phase 4<br>Dynamic UI + Storage</div>
+    </header>
+
+    <div id="alertMessage" class="alert"></div>
+
+    <section class="app-grid">
+      <section class="card">
+        <h2 id="formTitle">➕ Tambah Siswa</h2>
+        <form id="studentForm">
+          <label for="studentName">Nama Siswa</label>
+          <input id="studentName" type="text" placeholder="Contoh: Ahmad" autocomplete="off" required>
+
+          <label for="studentScore">Nilai</label>
+          <input id="studentScore" type="number" min="0" max="100" placeholder="0 - 100" required>
+
+          <button id="submitBtn" class="primary-btn" type="submit">➕ Tambah Siswa</button>
+          <button id="cancelBtn" class="cancel-btn" type="button">Batal Edit</button>
+        </form>
+        <p class="form-note">💡 Data disimpan ke Array JavaScript, LocalStorage, lalu UI dirender ulang tanpa refresh.</p>
+      </section>
+
+      <section class="card">
+        <div class="list-header">
+          <h2>📋 Daftar Siswa</h2>
+          <span class="saved-status">💾 LocalStorage</span>
+        </div>
+
+        <div id="studentList" class="student-list"></div>
+
+        <div class="stats">
+          <div class="stat-box">
+            <span>Total Siswa</span>
+            <strong id="totalStudents">0</strong>
+          </div>
+          <div class="stat-box">
+            <span>Rata-rata Nilai</span>
+            <strong id="averageScore">0</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
